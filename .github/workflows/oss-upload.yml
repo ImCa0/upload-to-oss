@@ -38,7 +38,7 @@ jobs:
         OSS_ENDPOINT: "https://oss-cn-hangzhou.aliyuncs.com"
         OSS_REGION: "cn-hangzhou"
       run: |
-        python -c "
+        python -c """
         import oss2
         import os
         import hashlib
@@ -87,4 +87,4 @@ jobs:
                 # 上传文件
                 print(f'Uploading {local_path} to OSS as {remote_path}')
                 bucket.put_object_from_file(remote_path, local_path)
-                "
+                """
