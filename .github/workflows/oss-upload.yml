@@ -38,4 +38,4 @@ jobs:
         OSS_ENDPOINT: "https://oss-cn-hangzhou.aliyuncs.com"
         OSS_REGION: "cn-hangzhou"
       run: |
-        python upload_to_oss.py
+        python .github/scripts/upload_to_oss.py
