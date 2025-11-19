@@ -55,6 +55,9 @@ jobs:
                     md5.update(chunk)
             return md5.hexdigest()
 
+        def normalize_and_lower(etag):
+            return etag.strip('"').lower()
+
         # 遍历资源文件并上传，检查是否已存在或是否更新
         resource_path = 'source/assets'  # 需要上传的本地文件路径
         for root, dirs, files in os.walk(resource_path):
@@ -66,14 +69,15 @@ jobs:
                 try:
                     result = bucket.head_object(remote_path)
                     oss_etag = result.headers.get('etag')  # 获取 OSS 文件的 ETag（哈希值）
+                    normalized_etag = normalize_and_lower(oss_etag)
                     
                     # 如果文件内容未变化，跳过上传
-                    if oss_etag:
+                    if normalized_etag:
                         with open(local_path, 'rb') as f:
                             local_md5 = calculate_md5(local_path)  # 计算本地文件的 MD5
                             print(f'local_md5: {local_md5}')
-                            print(f'oss_etag: {oss_etag}')
-                            if oss_etag == local_md5:
+                            print(f'normalized_etag: {normalized_etag}')
+                            if normalized_etag == local_md5:
                                 print(f'{remote_path} is up-to-date, skipping upload.')
                                 continue
                 except oss2.exceptions.NoSuchKey:
