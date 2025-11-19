@@ -3,7 +3,7 @@ name: Upload to OSS
 on:
   push:
     branches:
-      - main  # 可以根据需要更改为其他分支
+      - master  # 可以根据需要更改为其他分支
     paths:
       - 'source/assets/**'  # 只在特定路径下的文件发生变化时触发工作流
 
