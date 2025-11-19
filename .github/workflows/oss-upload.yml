@@ -41,6 +41,7 @@ jobs:
         python -c "
         import oss2
         import os
+        import hashlib
         from pathlib import Path
 
         # 获取阿里云 OSS 客户端
@@ -62,8 +63,8 @@ jobs:
                     # 如果文件内容未变化，跳过上传
                     if oss_etag:
                         with open(local_path, 'rb') as f:
-                            local_etag = oss2.utils.calc_md5(f)  # 计算本地文件的 ETag（哈希值）
-                            if oss_etag == local_etag:
+                            local_md5 = calculate_md5(local_path)  # 计算本地文件的 MD5
+                            if oss_etag == local_md5:
                                 print(f'{remote_path} is up-to-date, skipping upload.')
                                 continue
                 except oss2.exceptions.NoSuchKey:
