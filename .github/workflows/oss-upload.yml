@@ -71,6 +71,8 @@ jobs:
                     if oss_etag:
                         with open(local_path, 'rb') as f:
                             local_md5 = calculate_md5(local_path)  # 计算本地文件的 MD5
+                            print(local_md5: f'{local_md5}')
+                            print(oss_etag: f'{local_md5}')
                             if oss_etag == local_md5:
                                 print(f'{remote_path} is up-to-date, skipping upload.')
                                 continue
