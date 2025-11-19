@@ -25,7 +25,9 @@ jobs:
     # 安装 OSS 工具
     - name: Install OSS client
       run: |
+        python -m pip install --upgrade pip
         pip install oss2
+        pip show oss2  # 显示 oss2 库的安装信息，帮助调试
 
     # 上传文件到 OSS
     - name: Upload resources to OSS
