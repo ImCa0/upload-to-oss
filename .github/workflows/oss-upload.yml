@@ -35,7 +35,8 @@ jobs:
         ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
         ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
         OSS_BUCKET: "imcao-blog"
-        OSS_ENDPOINT: "oss-cn-hangzhou"
+        OSS_ENDPOINT: "https://oss-cn-hangzhou.aliyuncs.com"
+        OSS_REGION: "cn-hangzhou"
       run: |
         python -c "
         import oss2
@@ -44,7 +45,7 @@ jobs:
 
         # 获取阿里云 OSS 客户端
         auth = oss2.Auth(os.getenv('ACCESS_KEY_ID'), os.getenv('ACCESS_KEY_SECRET'))
-        bucket = oss2.Bucket(auth, os.getenv('OSS_ENDPOINT'), os.getenv('OSS_BUCKET'))
+        bucket = oss2.Bucket(auth, os.getenv('OSS_ENDPOINT'), os.getenv('OSS_BUCKET'), region=os.getenv('OSS_REGION'))
 
         # 遍历资源文件并上传，检查是否已存在或是否更新
         resource_path = 'source/assets'  # 需要上传的本地文件路径
