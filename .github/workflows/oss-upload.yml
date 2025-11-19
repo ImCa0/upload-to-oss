@@ -48,6 +48,13 @@ jobs:
         auth = oss2.Auth(os.getenv('ACCESS_KEY_ID'), os.getenv('ACCESS_KEY_SECRET'))
         bucket = oss2.Bucket(auth, os.getenv('OSS_ENDPOINT'), os.getenv('OSS_BUCKET'), region=os.getenv('OSS_REGION'))
 
+        def calculate_md5(file_path):
+            md5 = hashlib.md5()
+            with open(file_path, 'rb') as f:
+                while chunk := f.read(8192):
+                    md5.update(chunk)
+            return md5.hexdigest()
+
         # 遍历资源文件并上传，检查是否已存在或是否更新
         resource_path = 'source/assets'  # 需要上传的本地文件路径
         for root, dirs, files in os.walk(resource_path):
